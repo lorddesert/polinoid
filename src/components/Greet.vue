@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/tauri";
+import { TodoController } from "../controllers/todo.js"
 
 const greetMsg = ref("");
 const name = ref("");
+const todos = ref("")
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
   greetMsg.value = await invoke("greet", { name: name.value });
+  const result = await TodoController.getAll()
+
+  todos.value = result
 }
 </script>
 
@@ -18,4 +23,5 @@ async function greet() {
   </form>
 
   <p>{{ greetMsg }}</p>
+  <code>{{ todos ? JSON.stringify(todos) : null }}</code>
 </template>
