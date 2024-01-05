@@ -17,6 +17,9 @@ dependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
+  lucide-vue-next:
+    specifier: ^0.306.0
+    version: 0.306.0(vue@3.4.4)
   radix-vue:
     specifier: ^1.2.6
     version: 1.2.6(vue@3.4.4)
@@ -1108,6 +1111,14 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lucide-vue-next@0.306.0(vue@3.4.4):
+    resolution: {integrity: sha512-2DIfpxv74y3KQIcVLsDgQVOK7Q8mwKzqK2Q61PBD6cho1iXWdMM3rZis6VIQctpXUoddCQDQ85x2Vu7omy7c8A==}
+    peerDependencies:
+      vue: '>=3.0.1'
+    dependencies:
+      vue: 3.4.4(typescript@5.3.3)
+    dev: false
 
   /magic-string@0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
