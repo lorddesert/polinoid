@@ -29,6 +29,7 @@ header {
 	display: grid;
 	place-items: center;
 	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 
 ul {
