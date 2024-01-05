@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ref } from 'vue';
 const notes = ref([
   {
@@ -64,9 +66,12 @@ function saveNote() {
       </section>
       <section>
 
-        <button @click="saveNote">Save Note</button>
-        <code>{{ dumbText }}</code>
-        <textarea name="note" id="note" cols="30" rows="10" @input="writeDumbText" v-model="newBody"></textarea>
+        <Textarea name="note" id="note" cols="30" rows="10" @input="writeDumbText" v-model="newBody"></Textarea>
+        <Button @click="saveNote" class=" my-2 bg-teal-600 hover:bg-teal-700 mr-4">Save Note</Button>
+        <Alert class="my-2">
+          <AlertTitle>Dumb text:</AlertTitle>
+          <AlertDescription>{{ dumbText }}</AlertDescription>
+        </Alert>
       </section>
     </div>
   </Card>
@@ -85,13 +90,5 @@ function saveNote() {
   display: grid;
   grid-template-columns: auto 1fr;
 
-}
-
-textarea {
-  width: 100%;
-  background-color: inherit;
-  border: 1px solid gray;
-  color: #fafafa;
-  font-size: 1rem;
 }
 </style>
