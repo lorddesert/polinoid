@@ -2,7 +2,6 @@
   import KanbanSection from '../components/KanbanSection.vue';
 </script>
 <template>
-  <h1>Kanban page</h1>
   <main>
     <KanbanSection title="Backlog" :cards="[]" status="backlog"/>
     <KanbanSection title="W.I.P" :cards="[]"  status="in progress"/>
