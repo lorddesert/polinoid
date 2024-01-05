@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Tab from './Tab.vue';
-
 </script>
 <template>
 	<header>
 		<nav>
 			<Tabs default-value="/">
-				<TabsList>
+				<TabsList class="block h-fit">
 					<router-link to="/">
-						<TabsTrigger value="/">
+						<TabsTrigger value="/" class=" text-base px-5 py-2">
+							<!-- <Button variant="link" class="hover:no-underline"> -->
 							Kanban
+							<!-- </Button> -->
 						</TabsTrigger>
 					</router-link>
 					<router-link to="/notes">
-						<TabsTrigger value="/notes">
+						<TabsTrigger value="/notes" class=" text-base px-5 py-2">
 							Notes
 						</TabsTrigger>
 					</router-link>
@@ -28,6 +28,7 @@ import Tab from './Tab.vue';
 header {
 	display: grid;
 	place-items: center;
+	margin-top: 1rem;
 }
 
 ul {
