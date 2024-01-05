@@ -1,9 +1,18 @@
 <script lang="ts" setup>
-import { Card } from '../utils/utils';
+import { Card as CardType } from '../utils/utils';
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardHeader,
+  // CardDescription,
+  // CardFooter,
+} from '@/components/ui/card'
+import { Button } from './ui/button';
 
 defineProps<{
   title: string,
-  cards: Card[],
+  cards: CardType[],
   status: string
 }>()
 
@@ -18,32 +27,20 @@ function addNewCard() {
 }
 </script>
 <template>
-  <section>
-    <h2>{{ title }}</h2>
-    <ul>
-      <template v-for="card in cards">
-        <li>
-          <h3>{{ card.title }}</h3>
-          <p>{{ card.description }}</p>
-        </li>
-      </template>
-    </ul>
-    <button class="new-card-btn" @click="addNewCard">Add new card</button>
-  </section>
+  <Card>
+    <CardHeader>
+      <CardTitle>{{ title }}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul>
+        <template v-for="card in cards">
+          <li>
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.description }}</p>
+          </li>
+        </template>
+      </ul>
+    </CardContent>
+    <Button variant="ghost" size="lg" class="text-lg mx-auto block w-full" @click="addNewCard">Add new card</Button>
+  </Card>
 </template>
-
-<style scoped>
-  h2 {
-    text-align: center;
-  }
-
-  section {
-    border: 1px solid black;
-    border-radius: 7px;
-  }
-
-  .new-card-btn {
-    margin: 0 auto;
-    display: block;
-  }
-</style>
