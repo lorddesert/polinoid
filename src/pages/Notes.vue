@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { ref } from 'vue';
 const notes = ref([
   {
@@ -31,7 +33,7 @@ function selectNote(id: number) {
 function saveNote() {
   const newNotes = notes.value.map(note => {
     if (note.id === currentNoteID.value) {
-      const {title} = note
+      const { title } = note
       return {
         id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
         title,
@@ -47,22 +49,27 @@ function saveNote() {
 </script>
 
 <template>
-  <h1>Notes</h1>
-  <div class="notes">
-    <section>
-      <ul v-for="note in notes">
-        <li>
-          <button @click="selectNote(note.id)">{{ note.title }}</button>
-        </li>
-      </ul>
-    </section>
-    <section>
+  <Card>
+    <CardHeader>
+      <CardTitle>Notes</CardTitle>
 
-      <button @click="saveNote" >Save Note</button>
-      <code>{{ dumbText }}</code>
-      <textarea name="note" id="note" cols="30" rows="10" @input="writeDumbText" v-model="newBody"></textarea>
-    </section>
-  </div>
+    </CardHeader>
+    <div class="notes">
+      <section>
+        <ul class="grid gap-1 px-1">
+          <Card class=" min-w-48" v-for="note in notes">
+            <Button @click="selectNote(note.id)" class="block w-full text-left" variant="ghost">{{ note.title }}</Button>
+          </Card>
+        </ul>
+      </section>
+      <section>
+
+        <button @click="saveNote">Save Note</button>
+        <code>{{ dumbText }}</code>
+        <textarea name="note" id="note" cols="30" rows="10" @input="writeDumbText" v-model="newBody"></textarea>
+      </section>
+    </div>
+  </Card>
 </template>
 
 <style scoped>
