@@ -10,7 +10,7 @@ const backlog: Card[] = [
 ]
 </script>
 <template>
-  <main>
+  <main class="px-4">
     <KanbanSection title="Backlog" :cards="backlog" status="backlog" />
     <KanbanSection title="W.I.P" :cards="[]" status="in progress" />
     <KanbanSection title="Done ✅" :cards="[]" status="done" />
