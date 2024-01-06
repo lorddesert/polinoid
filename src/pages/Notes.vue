@@ -52,10 +52,9 @@ function selectNote(id: number) {
 function saveNote() {
   const newNotes = notes.value.map(note => {
     if (note.id === currentNoteID.value) {
-      const { title } = note
       return {
         id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
-        title,
+        title: noteTitle.value,
         body: newBody.value
       }
     }
