@@ -53,10 +53,10 @@ function addNewCard() {
     <CardContent>
       <ul>
         <template v-for="card in cards">
-          <li>
-            <h3>{{ card.title }}</h3>
-            <p>{{ card.description }}</p>
-          </li>
+          <Card class="p-2">
+            <h2 class=" text-base">{{ card.title }}</h2>
+            <p class="text-sm text-slate-600">{{ card.description }}</p>
+          </Card>
         </template>
       </ul>
     </CardContent>
