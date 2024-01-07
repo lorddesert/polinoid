@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/select'
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { toast } from './ui/toast';
 
 defineProps<{
   title: string,
@@ -36,7 +37,13 @@ defineProps<{
 }>()
 
 
-function addNewCard() {
+function addNewCard(e) {
+  e.preventDefault()
+  console.log(e)
+  toast({
+    title: 'Card created!',
+    type: 'foreground'
+  })
   /* 
     KabanController.createCard(cardInfo)
     KanbanController.getAllCards()
@@ -62,10 +69,10 @@ function addNewCard() {
     </CardContent>
     <Dialog>
       <DialogTrigger class="mx-auto w-full block">
-        <Button variant="ghost" size="lg" class="text-lg mx-auto block w-full" @click="addNewCard">Add new card</Button>
+        <Button variant="ghost" size="lg" class="text-lg mx-auto block w-full">Add new card</Button>
       </DialogTrigger>
       <DialogContent>
-        <form action="" class="grid gap-2">
+        <form action="" class="grid gap-2" v-on:submit="addNewCard">
           <label for="note-title">Note title</label>
           <Input type="text" name="note-title" id="note-title" placeholder="Awesome thing!" />
           <label for="note-status">Status</label>
@@ -90,13 +97,15 @@ function addNewCard() {
           </Select>
           <label for="note-body">Note body</label>
           <Textarea name="note-body" id="note-body" cols="30" rows="10" placeholder="Super history"></Textarea>
+          <DialogFooter>
+            <DialogClose>
+              Cancel
+            </DialogClose>
+            <DialogClose>
+              <Button type="submit">Create it!</Button>
+            </DialogClose>
+          </DialogFooter>
         </form>
-        <DialogFooter>
-          <DialogClose>
-            Cancel
-          </DialogClose>
-          <Button type="submit">Create it!</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
 
