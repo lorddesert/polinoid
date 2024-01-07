@@ -69,8 +69,8 @@ function saveNote() {
 }
 </script>
 
-<template>
-  <Card class="min-h-96">
+<template class="">
+  <Card class="min-h-96 mx-4">
     <CardHeader>
       <CardTitle>Notes</CardTitle>
 
@@ -78,6 +78,10 @@ function saveNote() {
     <div class="notes">
       <section>
         <ul class="grid gap-1 px-1">
+          <Button @click="" variant="outline" class=" rounded-b-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle w-6 h-6 mr-2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <!-- Create new -->
+          </Button>
           <Card class=" min-w-48" v-for="note in notes">
             <Button @click="selectNote(note.id)" :class="note.id === currentNoteID && 'border border-slate-500'"
               class="block w-full text-left" variant="ghost">{{ note.title }}</Button>
