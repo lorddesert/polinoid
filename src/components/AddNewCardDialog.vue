@@ -23,7 +23,7 @@ import { Textarea } from './ui/textarea';
 import { toast } from './ui/toast';
 
 
-export function addNewCard(e: any) {
+function addNewCard(e: any) {
   e.preventDefault()
   console.log(e)
   toast({
