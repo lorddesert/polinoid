@@ -56,7 +56,8 @@ function saveNote() {
       return {
         id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
         title: noteTitle.value,
-        body: newBody.value
+        body: newBody.value,
+        draft: false
       }
     }
 
