@@ -28,6 +28,7 @@ const notes = ref([
 const currentNoteID = ref(-1)
 const newBody = ref("")
 const noteTitle = ref("")
+const noteIsDraft = ref(false)
 
 const { toast } = useToast()
 
@@ -40,6 +41,7 @@ function selectNote(id: number) {
 
   newBody.value = selectedNote!.body
   noteTitle.value = selectedNote!.title
+  noteIsDraft.value = selectedNote?.draft || false
 
   currentNoteID.value = selectedNote!.id
 }
@@ -104,9 +106,14 @@ async function deleteNote() {
       <section>
         <ul class="grid gap-1 px-1">
           <CreateNoteButton :createNote="createNote" />
-          <Card class=" min-w-48" v-for="note in notes">
-            <Button @click="selectNote(note.id)" :class="note.id === currentNoteID && 'border border-slate-500'"
-              class="block w-full text-left" variant="ghost">{{ note.title }}</Button>
+          <Card class=" min-w-48 border-none" v-for="note in notes">
+            <Button @click="selectNote(note.id)"
+              class="block w-full text-left" variant="ghost"
+              v-bind:class="{
+                'border border-slate-500': note.id === currentNoteID,
+                ' border-amber-100 border-dashed text-amber-100 hover:bg-amber-100 hover:bg-opacity-20': note.draft
+              }"
+              >{{ note.title }}</Button>
           </Card>
         </ul>
       </section>
@@ -114,6 +121,13 @@ async function deleteNote() {
 
         <Card>
           <CardHeader class="py-2">
+            <template v-if="noteIsDraft">
+              <Card class="border-amber-600 bg-amber-900 border-dashed border-2 text-amber-400 w-min text-sm">
+                <CardHeader>
+                  <CardTitle>Draft</CardTitle>
+                </CardHeader>
+              </Card>
+            </template>
             <Input class=" border-t-0 border-l-0 border-r-0 rounded-none" v-model="noteTitle" />
             <!-- <CardTitle contenteditable spellcheck="false" >
               {{ notes?.find(note => note.id === currentNoteID)?.title || '' }}
@@ -159,4 +173,5 @@ async function deleteNote() {
   display: grid;
   grid-template-columns: auto 1fr;
 
-}</style>
+}
+</style>
