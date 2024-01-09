@@ -62,7 +62,7 @@ export class TodoModel {
   async deleteTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
-    db.execute(`delete from todo where id = ${todo.id};`)
+    await db.execute(`delete from todo where id = ${todo.id};`)
 
     db.close()
   }
