@@ -9,7 +9,7 @@ type Note = {
 export type { Note }
 
 export class NoteModel {
-  async getAll() {
+  static async getAll() {
     const db = await openDatabaseConnection()
     let AllNotes: Note[] = []
     try {
@@ -23,7 +23,7 @@ export class NoteModel {
     return AllNotes
   }
 
-  async getFilteredNotes(
+  static async getFilteredNotes(
     {
       limit,
       order = 'ASC',
@@ -46,7 +46,7 @@ export class NoteModel {
     }
   }
 
-  async modifyNote(note: Note) {
+  static async modifyNote(note: Note) {
     const db = await openDatabaseConnection()
     try {
       await db.execute(`update note set title = ${note.title}, description=${note.description} where id = ${note.id};`)
@@ -59,7 +59,7 @@ export class NoteModel {
     db.close()
   }
 
-  async deleteNote(note: Note) {
+  static async deleteNote(note: Note) {
     const db = await openDatabaseConnection()
 
     await db.execute(`delete from note where id = ${note.id};`)
@@ -68,7 +68,7 @@ export class NoteModel {
   }
 
 
-  async createNote(note: Note) {
+  static async createNote(note: Note) {
     const db = await openDatabaseConnection()
 
     await db.execute(`insert into note (title, description) values (${note.title},${note.description} );`)
