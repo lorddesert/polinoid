@@ -49,7 +49,7 @@ export class NoteModel {
   static async modifyNote(note: Note) {
     const db = await openDatabaseConnection()
     try {
-      await db.execute(`update note set title = ${note.title}, description=${note.description} where id = ${note.id};`)
+      await db.execute(`update note set title = ${note.title}, description=${note.body} where id = ${note.id};`)
       await db.close()
     } catch (e) {
       console.log(`Error trying to modify note: `)
@@ -71,7 +71,7 @@ export class NoteModel {
   static async createNote(note: Note) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into note (title, description) values (${note.title},${note.description} );`)
+    await db.execute(`insert into note (title, description) values (${note.title},${note.body} );`)
 
     db.close()
   }
