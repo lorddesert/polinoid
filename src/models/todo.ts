@@ -9,7 +9,7 @@ type Todo = {
 export type { Todo }
 
 export class TodoModel {
-  async getAll() {
+  static async getAll() {
     const db = await openDatabaseConnection()
     let allTodos: Todo[] = []
     try {
@@ -23,7 +23,7 @@ export class TodoModel {
     return allTodos
   }
 
-  async getFilteredTodos(
+  static async getFilteredTodos(
     {
       limit,
       order = 'ASC',
@@ -46,7 +46,7 @@ export class TodoModel {
     }
   }
 
-  async modifyTodo(todo: Todo) {
+  static async modifyTodo(todo: Todo) {
     const db = await openDatabaseConnection()
     try {
       await db.execute(`update todo set title = ${todo.title} where id = ${todo.id};`)
@@ -59,7 +59,7 @@ export class TodoModel {
     db.close()
   }
 
-  async deleteTodo(todo: Todo) {
+  static async deleteTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
     await db.execute(`delete from todo where id = ${todo.id};`)
@@ -68,7 +68,7 @@ export class TodoModel {
   }
 
 
-  async createTodo(todo: Todo) {
+  static async createTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
     await db.execute(`insert into todo (title, body) values (${todo.title},${todo.body} );`)
