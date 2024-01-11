@@ -1,9 +1,9 @@
 [package]
 name = "polinoid"
-version = "0.0.0"
-description = "A Tauri App"
+version = "0.1.0"
+description = "Kanban table and notes integrated in one place."
 authors = ["you"]
-license = ""
+license = "MIT"
 repository = ""
 edition = "2021"
 
