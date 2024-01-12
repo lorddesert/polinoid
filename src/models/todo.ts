@@ -3,7 +3,8 @@ import { openDatabaseConnection } from "../utils/utils"
 type Todo = {
   id: string,
   title: string,
-  body: string
+  description: string,
+  status: "backlog" | "in progress" | "done"
 }
 
 export type { Todo }
@@ -49,7 +50,11 @@ export class TodoModel {
   static async modifyTodo(todo: Todo) {
     const db = await openDatabaseConnection()
     try {
-      await db.execute(`update todo set title = ${todo.title} where id = ${todo.id};`)
+      await db.execute(`update todo set 
+      title = ${todo.title}, 
+      description = ${todo.description}, 
+      status = ${todo.status} 
+      where id = ${todo.id};`)
       await db.close()
     } catch (e) {
       console.log(`Error trying to modify todo: `)
@@ -71,7 +76,7 @@ export class TodoModel {
   static async createTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into todo (title, body) values (${todo.title},${todo.body} );`)
+    await db.execute(`insert into todo (title, description, status) values (${todo.title}, ${todo.description}, ${todo.status});`)
 
     db.close()
   }
