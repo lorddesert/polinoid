@@ -1,11 +1,29 @@
 use std::fs;
 use std::path::Path;
+use sqlite::open;
 
 // Check if a database file exists, and create one if it does not.
 pub fn init() {
     if !db_file_exists() {
         create_db_file();
+        create_db_tables();
     }
+}
+
+fn create_db_tables() {
+    let connection = open(get_db_path()).unwrap();
+        
+    connection.execute("create table todo (
+            id integer primary key  autoincrement, 
+            title text, 
+            description text
+        );").unwrap();
+
+    connection.execute("create table note (
+            id integer primary key  autoincrement,
+            title text,
+            body text
+        );").unwrap();
 }
 
 // Create the database file.
