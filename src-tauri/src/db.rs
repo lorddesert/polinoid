@@ -16,7 +16,8 @@ fn create_db_tables() {
     connection.execute("create table todo (
             id integer primary key  autoincrement, 
             title text,
-            description text
+            description text,
+            status text
         );").unwrap();
 
     connection.execute("create table note (
