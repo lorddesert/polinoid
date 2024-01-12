@@ -15,14 +15,15 @@ fn create_db_tables() {
         
     connection.execute("create table todo (
             id integer primary key  autoincrement, 
-            title text, 
+            title text,
             description text
         );").unwrap();
 
     connection.execute("create table note (
             id integer primary key  autoincrement,
             title text,
-            body text
+            body text,
+            draft integer
         );").unwrap();
 }
 
