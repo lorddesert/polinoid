@@ -3,7 +3,8 @@ import { openDatabaseConnection } from "../utils/utils"
 type Note = {
   id?: number,
   title: string,
-  body?: string
+  body: string,
+  draft: boolean
 }
 
 export type { Note }
@@ -71,7 +72,7 @@ export class NoteModel {
   static async createNote(note: Note) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into note (title, description) values (${note.title},${note.body} );`)
+    await db.execute(`insert into note (title, body, draft) values ('${note.title}','${note.body}', 0);`)
 
     db.close()
   }
