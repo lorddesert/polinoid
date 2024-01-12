@@ -2,33 +2,32 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Textarea } from "@/components/ui/textarea"
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/toast/use-toast'
 import CreateNoteButton from './CreateNoteButton.vue'
 import DeleteNoteDialog from './DeleteNoteDialog.vue'
-// import { Note as NoteType } from "@/models/note"
+import { Note } from '@/models/note';
+import { NoteController } from '@/controllers/note';
+const props = defineProps<{
+  allNotes: Note[]
+}>()
 
-// mock production DATA
-const notes = ref([
-  {
-    id: 1,
-    title: 'asd 1',
-    body: 'Body 1',
-    draft: false
-  },
-  {
-    id: 2,
-    title: 'asd 21',
-    body: 'Body 2',
-    draft: false
-  },
-])
-
+const notes = ref(props.allNotes)
 const currentNoteID = ref(-1)
 const newBody = ref("")
 const noteTitle = ref("")
 const noteIsDraft = ref(false)
+
+onMounted(() => {
+  async function fetchData() {
+    const allNotes = await NoteController.getAll()
+
+    notes.value = allNotes
+  }
+
+  fetchData()
+})
 
 const { toast } = useToast()
 
@@ -39,43 +38,87 @@ function writeDumbText(e: any) {
 function selectNote(id: number) {
   const selectedNote = notes.value.find(note => note.id === id)
 
-  newBody.value = selectedNote!.body
-  noteTitle.value = selectedNote!.title
-  noteIsDraft.value = selectedNote?.draft || false
+  if (!selectedNote) return
 
-  currentNoteID.value = selectedNote!.id
+  newBody.value = selectedNote.body || 'ERR BODY NOT FOUND'
+  noteTitle.value = selectedNote.title
+  noteIsDraft.value = selectedNote.draft || false
+
+  currentNoteID.value = selectedNote.id || -1
 }
 
 function deselectNote() {
   currentNoteID.value = -1
 }
 
-function saveNote() {
-  const newNotes = notes.value.map(note => {
-    if (note.id === currentNoteID.value) {
-      return {
-        id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
+async function saveNote() {
+  // const newNotes = notes.value.map(note => {
+  //   if (note.id === currentNoteID.value) {
+  //     return {
+  //       id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
+  //       title: noteTitle.value,
+  //       body: newBody.value,
+  //       draft: false
+  //     }
+  //   }
+
+  //   return note
+  // })
+  try {
+
+    const selectedNoteIndex = notes.value.findIndex(note => note.id === currentNoteID.value)
+    const newNotes = [...notes.value]
+    const newNote = {
+      id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
+      title: noteTitle.value,
+      body: newBody.value,
+      draft: false
+    }
+
+    newNotes[selectedNoteIndex] = {
+      id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
+      title: noteTitle.value,
+      body: newBody.value,
+      draft: false
+    }
+
+    if (notes.value[selectedNoteIndex].draft) {
+      await NoteController.createNote({
         title: noteTitle.value,
         body: newBody.value,
         draft: false
-      }
+      })
+
+      toast({
+        title: 'Note created!',
+        // description: `Note : ${selectedNote!.title} has been saved!`,
+      });
+      
+      notes.value = newNotes
+      return
     }
 
-    return note
-  })
+    await NoteController.updateNote(newNote)
+    notes.value = newNotes
 
-  notes.value = newNotes
+    toast({
+      title: 'Note saved!',
+      // description: `Note : ${selectedNote!.title} has been saved!`,
+    });
 
-  toast({
-    title: 'Note saved!',
-    // description: `Note : ${selectedNote!.title} has been saved!`,
-  });
+  } catch(e) {
+    console.log({e})
+    toast({
+      title: "Error happened when creating/saving note",
+      variant: "destructive"
+    })
+  }
 }
 
 async function createNote() {
   const newGenericNote = {
     // ID is just for FE, BE will create it's real ID on save.
-    id: notes.value.at(-1)!.id + 1,
+    id: (notes.value.at(-1)?.id || 0) + 1,
     title: 'New note',
     body: 'Your awesome note!',
     draft: true
@@ -108,13 +151,10 @@ async function deleteNote() {
         <ul class="grid gap-1 px-1">
           <CreateNoteButton :createNote="createNote" />
           <Card class=" min-w-48 border-none" v-for="note in notes">
-            <Button @click="selectNote(note.id)"
-              class="block w-full text-left" variant="ghost"
-              v-bind:class="{
-                'border border-slate-500': note.id === currentNoteID,
-                ' border-amber-100 border-dashed text-amber-100 hover:bg-amber-100 hover:bg-opacity-20': note.draft
-              }"
-              >{{ note.title }}</Button>
+            <Button @click="selectNote(note.id)" class="block w-full text-left" variant="ghost" v-bind:class="{
+              'border border-slate-500': note.id === currentNoteID,
+              ' border-amber-100 border-dashed text-amber-100 hover:bg-amber-100 hover:bg-opacity-20': note.draft
+            }">{{ note.title }}</Button>
           </Card>
         </ul>
       </section>
