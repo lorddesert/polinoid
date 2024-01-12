@@ -19,13 +19,13 @@ const newBody = ref("")
 const noteTitle = ref("")
 const noteIsDraft = ref(false)
 
-onMounted(() => {
-  async function fetchData() {
+async function fetchData() {
     const allNotes = await NoteController.getAll()
 
     notes.value = allNotes
   }
 
+onMounted(() => {
   fetchData()
 })
 
@@ -134,9 +134,15 @@ async function createNote() {
 
 async function deleteNote() {
   const newNotes = notes.value.filter(note => note.id !== currentNoteID.value)
+  const selectedNote = notes.value.find(note => note.id === currentNoteID.value)
 
   notes.value = newNotes
   deselectNote()
+
+  //@ts-ignore
+  await NoteController.deleteNote(selectedNote)
+
+  fetchData()
 }
 </script>
 
@@ -150,8 +156,8 @@ async function deleteNote() {
       <section>
         <ul class="grid gap-1 px-1">
           <CreateNoteButton :createNote="createNote" />
-          <Card class=" min-w-48 border-none" v-for="note in notes">
-            <Button @click="selectNote(note.id)" class="block w-full text-left" variant="ghost" v-bind:class="{
+          <Card class=" min-w-44 max-w-48 border-none" v-for="note in notes">
+            <Button @click="selectNote(note.id)" class="block w-full text-left truncate" variant="ghost" v-bind:class="{
               'border border-slate-500': note.id === currentNoteID,
               ' border-amber-100 border-dashed text-amber-100 hover:bg-amber-100 hover:bg-opacity-20': note.draft
             }">{{ note.title }}</Button>
