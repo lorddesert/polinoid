@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { Todo } from '@/models/todo';
 import KanbanSection from '../components/KanbanSection.vue';
 import type { Card } from '@/utils/utils'
+
+defineProps<{
+  allTodos: Todo[]
+}>()
+
 const backlog: Card[] = [
   {
     title: "Slider for spellcheking option",
