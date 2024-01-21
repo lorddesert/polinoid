@@ -9,8 +9,8 @@ defineProps<{
 
 const backlog: Card[] = [
   {
-    title: "Slider for spellcheking option",
-    description: "asdasd",
+    title: "Slider for spellchecking option",
+    description: "More interesting description",
     status: "backlog"
   }
 ]
