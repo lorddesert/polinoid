@@ -62,7 +62,7 @@ onMounted(() => {
         </div>
       </section>
       <section v-else>
-        <Card class=" text-gray-400 border-dashed h-full">
+        <Card class=" text-gray-400 border-dashed h-full mr-1">
           <CardHeader>
             <CardTitle class="text-lg">Notes editing ✨</CardTitle>
             <CardDescription class="flex items-center gap-2">
