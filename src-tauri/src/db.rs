@@ -17,7 +17,7 @@ fn create_db_tables() {
             id integer primary key  autoincrement, 
             title text,
             description text,
-            status text
+            status text default 'backlog'
         );").unwrap();
 
     connection.execute("create table note (
