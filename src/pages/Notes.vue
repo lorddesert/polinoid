@@ -2,159 +2,32 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Textarea } from "@/components/ui/textarea"
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/toast/use-toast'
 import CreateNoteButton from './CreateNoteButton.vue'
 import DeleteNoteDialog from './DeleteNoteDialog.vue'
-import { Note } from '@/models/note';
-import { NoteController } from '@/controllers/note';
-const props = defineProps<{
-  allNotes: Note[]
-}>()
-
-const notes = ref(props.allNotes)
-const currentNoteID = ref(-1)
-const newBody = ref("")
-const noteTitle = ref("")
-const noteIsDraft = ref(false)
-
-async function fetchData() {
-    const allNotes = await NoteController.getAll()
-
-    notes.value = allNotes
-  }
+import {
+  selectNote, createNote, deleteNote, saveNote, fetchData, writeDumbText,
+  notes,
+  currentNoteID,
+  newBody,
+  noteTitle,
+  noteIsDraft
+} from '@/state/pages/notes'
 
 onMounted(() => {
-  fetchData()
+  if (!notes.value.length) fetchData()
 })
-
-const { toast } = useToast()
-
-function writeDumbText(e: any) {
-  newBody.value = e.target.value
-}
-
-function selectNote(id: number) {
-  const selectedNote = notes.value.find(note => note.id === id)
-
-  if (!selectedNote) return
-
-  newBody.value = selectedNote.body || 'ERR BODY NOT FOUND'
-  noteTitle.value = selectedNote.title
-  noteIsDraft.value = selectedNote.draft || false
-
-  currentNoteID.value = selectedNote.id || -1
-}
-
-function deselectNote() {
-  currentNoteID.value = -1
-}
-
-async function saveNote() {
-  // const newNotes = notes.value.map(note => {
-  //   if (note.id === currentNoteID.value) {
-  //     return {
-  //       id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
-  //       title: noteTitle.value,
-  //       body: newBody.value,
-  //       draft: false
-  //     }
-  //   }
-
-  //   return note
-  // })
-  try {
-
-    const selectedNoteIndex = notes.value.findIndex(note => note.id === currentNoteID.value)
-    const newNotes = [...notes.value]
-    const newNote = {
-      id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
-      title: noteTitle.value,
-      body: newBody.value,
-      draft: false
-    }
-
-    newNotes[selectedNoteIndex] = {
-      id: notes.value.length + 1, // Se puede?, Deberia darlo el BE
-      title: noteTitle.value,
-      body: newBody.value,
-      draft: false
-    }
-
-    if (notes.value[selectedNoteIndex].draft) {
-      await NoteController.createNote({
-        title: noteTitle.value,
-        body: newBody.value,
-        draft: false
-      })
-
-      toast({
-        title: 'Note created!',
-        // description: `Note : ${selectedNote!.title} has been saved!`,
-      });
-      
-      notes.value = newNotes
-      return
-    }
-
-    await NoteController.updateNote(newNote)
-    notes.value = newNotes
-
-    toast({
-      title: 'Note saved!',
-      // description: `Note : ${selectedNote!.title} has been saved!`,
-    });
-
-  } catch(e) {
-    console.log({e})
-    toast({
-      title: "Error happened when creating/saving note",
-      variant: "destructive"
-    })
-  }
-}
-
-async function createNote() {
-  const newGenericNote = {
-    // ID is just for FE, BE will create it's real ID on save.
-    id: (notes.value.at(-1)?.id || 0) + 1,
-    title: 'New note',
-    body: 'Your awesome note!',
-    draft: true
-  }
-
-  notes.value = [...notes.value, newGenericNote]
-
-  selectNote(newGenericNote.id)
-  // For production?
-  // const model = new NoteModel()
-  // await model.createNote(newGenericNote)
-}
-
-async function deleteNote() {
-  const newNotes = notes.value.filter(note => note.id !== currentNoteID.value)
-  const selectedNote = notes.value.find(note => note.id === currentNoteID.value)
-
-  notes.value = newNotes
-  deselectNote()
-
-  //@ts-ignore
-  await NoteController.deleteNote(selectedNote)
-
-  fetchData()
-}
 </script>
 
 <template class="">
   <Card class="min-h-96 mx-4">
     <CardHeader>
       <CardTitle>Notes</CardTitle>
-
     </CardHeader>
     <div class="notes">
       <section>
-        <ul class="grid gap-1 px-1">
+        <ul class="grid gap-1 px-1 min-w-44">
           <CreateNoteButton :createNote="createNote" />
           <Card class=" min-w-44 max-w-48 border-none" v-for="note in notes">
             <Button @click="selectNote(note.id)" class="block w-full text-left truncate" variant="ghost" v-bind:class="{
