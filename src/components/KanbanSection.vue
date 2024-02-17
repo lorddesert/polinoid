@@ -22,7 +22,7 @@ defineProps<{
       <CardTitle>{{ title }}</CardTitle>
     </CardHeader>
     <CardContent>
-      <ul>
+      <ul class="grid gap-1">
         <template v-for="card in cards">
           <KanbanCard :card="card" />
         </template>
