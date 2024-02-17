@@ -3,7 +3,7 @@ import { Todo } from '@/models/todo';
 import { ref, Ref } from 'vue';
 
 export const unfilteredAllTodos: Ref<Todo[]> = ref([])
-
+export const dataHasLoaded = ref(false)
 export const todos: Ref<{
   backlog: Todo[],
   wip: Todo[],
@@ -20,6 +20,7 @@ export async function fetchKanbanData() {
   unfilteredAllTodos.value.forEach(todo => newTodos[todo.status].push(todo))
 
   todos.value = newTodos
+  dataHasLoaded.value = true
 }
 
 
