@@ -4,7 +4,7 @@ type Todo = {
   id: string,
   title: string,
   description: string,
-  status: "backlog" | "in progress" | "done"
+  status: "backlog" | "wip" | "done"
 }
 
 export type { Todo }
