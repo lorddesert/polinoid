@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { Todo } from '@/models/todo';
 import KanbanSection from '../components/KanbanSection.vue';
-import type { Card } from '@/utils/utils'
+import { fetchKanbanData, todos, dataHasLoaded } from "@/state/pages/kanban"
+import { onMounted } from 'vue';
+onMounted(() => {
+  if (!dataHasLoaded.value)
+    fetchKanbanData()
+})
 
-defineProps<{
-  allTodos: Todo[]
-}>()
-
-const backlog: Card[] = [
-  {
-    title: "Slider for spellchecking option",
-    description: "More interesting description",
-    status: "backlog"
-  }
-]
 </script>
 <template>
   <main class="px-4">
