@@ -12,13 +12,10 @@ export async function openDatabaseConnection(envPath?: boolean) {
   dbPath = await invoke('get_db_path')
   return await SQLite.open(dbPath)
 }
-
-type CardStatus = "backlog" | "in progres" | "done"
-
 type Card = {
   title: string,
   description: string,
-  status: CardStatus
+  status: "backlog" | "wip" | "done"
 }
 
-export type { Card, CardStatus }
+export type { Card }
