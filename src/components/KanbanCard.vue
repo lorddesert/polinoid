@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
 	<Card class="p-2 gap-4">
-		<StatusSelect :status="card.status" />
+		<StatusSelect :status="card.status" :cardID="card.id" />
 		<h2 class="text-base">{{ card.title }}</h2>
 		<p class="text-sm text-slate-600">{{ card.description }}</p>
 	</Card>
