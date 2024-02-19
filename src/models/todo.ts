@@ -48,20 +48,16 @@ export class TodoModel {
   }
 
   static async modifyTodo(todo: Todo) {
-    const db = await openDatabaseConnection()
+    let db
     try {
-      await db.execute(`update todo set 
-      title = ${todo.title}, 
-      description = ${todo.description}, 
-      status = ${todo.status} 
-      where id = ${todo.id};`)
+      debugger;
+      db = await openDatabaseConnection()
+      await db.execute(`update todo set title = '${todo.title}', description = '${todo.description}', status = '${todo.status}' where id = ${todo.id};`)
       await db.close()
     } catch (e) {
       console.log(`Error trying to modify todo: `)
       console.log(e)
     }
-
-    db.close()
   }
 
   static async deleteTodo(todo: Todo) {
