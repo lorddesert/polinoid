@@ -50,7 +50,6 @@ export class TodoModel {
   static async modifyTodo(todo: Todo) {
     let db
     try {
-      debugger;
       db = await openDatabaseConnection()
       await db.execute(`update todo set title = '${todo.title}', description = '${todo.description}', status = '${todo.status}' where id = ${todo.id};`)
       await db.close()
