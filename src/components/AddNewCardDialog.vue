@@ -59,7 +59,7 @@ function addNewCard(e: any) {
 	                <SelectItem value="backlog">
 	                  Backlog
 	                </SelectItem>
-	                <SelectItem value="in-progres">
+	                <SelectItem value="wip">
 	                  In progress
 	                </SelectItem>
 	                <SelectItem value="done">
