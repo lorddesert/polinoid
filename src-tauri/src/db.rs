@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::Path;
 use sqlite::open;
+use std::env;
 
 // Check if a database file exists, and create one if it does not.
 pub fn init() {
@@ -52,5 +53,9 @@ fn db_file_exists() -> bool {
 #[tauri::command]
 pub fn get_db_path() -> String {
     let home_dir = dirs::home_dir().unwrap();
-    home_dir.to_str().unwrap().to_string() + "/polinoid-vault/database.sqlite"
+    if env::consts::OS  == "windows" {
+        home_dir.to_str().unwrap().to_string() + "\\polinoid-vault\\database.sqlite"
+    } else {
+        home_dir.to_str().unwrap().to_string() + "/polinoid-vault/database.sqlite"
+    }
 }
