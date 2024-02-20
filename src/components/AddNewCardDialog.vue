@@ -21,11 +21,32 @@ import {
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { toast } from './ui/toast';
+import { TodoController } from '@/controllers/todo';
+import { fetchKanbanData } from '@/state/pages/kanban';
 
 
-function addNewCard(e: any) {
+async function addNewCard(e: any) {
   e.preventDefault()
-  console.log(e)
+	const form = e.target
+	const newTodo = {
+		title: form[0].value,
+		status: form[2].value,
+		description: form[3].value
+	}
+
+	try {
+		// @ts-ignore
+		await TodoController.createTodo(newTodo)
+		await fetchKanbanData()
+	} catch(e) {
+		console.log(e)
+
+		toast({
+			variant: 'destructive',
+			title: 'ERR: when creating card!'
+		})
+	}
+
   toast({
     title: 'Card created!',
     type: 'foreground'
