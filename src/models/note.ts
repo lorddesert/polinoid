@@ -72,7 +72,7 @@ export class NoteModel {
   static async createNote(note: Note) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into note (title, body, draft) values ('${note.title}','${note.body}', 0);`)
+    await db.execute(`insert into note (title, body, draft) values (:title, :body, 0);`, [note.title, note.body])
 
     db.close()
   }
