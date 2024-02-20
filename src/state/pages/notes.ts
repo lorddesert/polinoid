@@ -128,6 +128,7 @@ export async function deleteNote() {
     //@ts-ignore
     await NoteController.deleteNote(selectedNote)
 
+    deselectNote()
     fetchData()
 }
 
