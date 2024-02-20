@@ -51,8 +51,13 @@ export class TodoModel {
     let db
     try {
       db = await openDatabaseConnection()
-      await db.execute(`update todo set title = '${todo.title}', description = '${todo.description}', status = '${todo.status}' where id = ${todo.id};`)
-      await db.close()
+      await db!.execute(`update todo set title = :title, description = :description, status = :status where id = :id;`, [
+        todo.title,
+        todo.description,
+        todo.status,
+        todo.id
+      ])
+      await db!.close()
     } catch (e) {
       console.log(`Error trying to modify todo: `)
       console.log(e)
@@ -71,7 +76,7 @@ export class TodoModel {
   static async createTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into todo (title, description, status) values (${todo.title}, ${todo.description}, ${todo.status});`)
+    await db.execute(`insert into todo (title, description, status) values (:title, :description, :status);`, [todo.title, todo.description, todo.status])
 
     db.close()
   }
