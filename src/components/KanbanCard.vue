@@ -1,6 +1,5 @@
 <script setup lang=ts>
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button'
 import StatusSelect from './StatusSelect.vue';
 import { Todo } from '@/models/todo';
 import { ref } from 'vue';
