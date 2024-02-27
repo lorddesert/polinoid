@@ -14,13 +14,13 @@ export class TodoModel {
     const db = await openDatabaseConnection()
     let allTodos: Todo[] = []
     try {
-      allTodos = await db.select("select * from todo;")
+      allTodos = await db!.select("select * from todo;")
     } catch (e) {
       console.log('Error trying to fetch all todos:')
       console.log(e)
     }
 
-    db.close()
+    db!.close()
     return allTodos
   }
 
@@ -36,14 +36,14 @@ export class TodoModel {
     }) {
     const db = await openDatabaseConnection(true)
     try {
-      const filteredTodos: Todo[] = await db.select(`select * from todo order by ${orderColumn} ${order} ${limit && `limit ${limit}`} ;`)
+      const filteredTodos: Todo[] = await db!.select(`select * from todo order by ${orderColumn} ${order} ${limit && `limit ${limit}`} ;`)
 
-      db.close()
+      db!.close()
       return filteredTodos
     } catch (e) {
       console.log('Error trying to fetch filtered todos:')
       console.log(e)
-      db.close()
+      db!.close()
     }
   }
 
@@ -67,17 +67,17 @@ export class TodoModel {
   static async deleteTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`delete from todo where id = ${todo.id};`)
+    await db!.execute(`delete from todo where id = ${todo.id};`)
 
-    db.close()
+    db!.close()
   }
 
 
   static async createTodo(todo: Todo) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into todo (title, description, status) values (:title, :description, :status);`, [todo.title, todo.description, todo.status])
+    await db!.execute(`insert into todo (title, description, status) values (:title, :description, :status);`, [todo.title, todo.description, todo.status])
 
-    db.close()
+    db!.close()
   }
 }
