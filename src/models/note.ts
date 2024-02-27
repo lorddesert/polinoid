@@ -1,3 +1,4 @@
+import SQLite from "tauri-plugin-sqlite-api"
 import { openDatabaseConnection } from "../utils/utils"
 
 type Note = {
@@ -14,13 +15,13 @@ export class NoteModel {
     const db = await openDatabaseConnection()
     let AllNotes: Note[] = []
     try {
-      AllNotes = await db.select("select * from note;")
+      AllNotes = await db!.select("select * from note;")
     } catch (e) {
       console.log('Error trying to fetch all todos:')
       console.log(e)
     }
 
-    db.close()
+    db!.close()
     return AllNotes
   }
 
@@ -36,44 +37,44 @@ export class NoteModel {
     }) {
     const db = await openDatabaseConnection(true)
     try {
-      const filteredNotes: Note[] = await db.select(`select * from note order by ${orderColumn} ${order} ${limit && `limit ${limit}`} ;`)
+      const filteredNotes: Note[] = await db!.select(`select * from note order by ${orderColumn} ${order} ${limit && `limit ${limit}`} ;`)
 
-      db.close()
+      db!.close()
       return filteredNotes
     } catch (e) {
       console.log('Error trying to fetch filtered todos:')
       console.log(e)
-      db.close()
+      db!.close()
     }
   }
 
   static async modifyNote(note: Note) {
     const db = await openDatabaseConnection()
     try {
-      await db.execute(`update note set title = ${note.title}, description=${note.body} where id = ${note.id};`)
-      await db.close()
+      await db!.execute(`update note set title = ${note.title}, description=${note.body} where id = ${note.id};`)
+      await db!.close()
     } catch (e) {
       console.log(`Error trying to modify note: `)
       console.log(e)
     }
 
-    db.close()
+    db!.close()
   }
 
   static async deleteNote(note: Note) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`delete from note where id = ${note.id};`)
+    await db!.execute(`delete from note where id = ${note.id};`)
 
-    db.close()
+    db!.close()
   }
 
 
   static async createNote(note: Note) {
     const db = await openDatabaseConnection()
 
-    await db.execute(`insert into note (title, body, draft) values (:title, :body, 0);`, [note.title, note.body])
+    await db!.execute(`insert into note (title, body, draft) values (:title, :body, 0);`, [note.title, note.body])
 
-    db.close()
+    db!.close()
   }
 }
