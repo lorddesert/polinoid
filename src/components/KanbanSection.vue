@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Card as CardType } from '../utils/utils';
 import {
   Card,
   CardTitle,
@@ -8,10 +7,11 @@ import {
 } from '@/components/ui/card'
 import AddNewCardDialog from './AddNewCardDialog.vue'
 import KanbanCard from './KanbanCard.vue'
+import { Todo } from '@/models/todo';
 
 defineProps<{
   title: string,
-  cards: CardType[],
+  cards: Todo[],
   status: string
 }>()
 
