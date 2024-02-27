@@ -2,7 +2,7 @@
 import { cn } from '@/lib/utils'
 
 const props = defineProps<{
-  class: string
+  class?: string
 }>()
 </script>
 
