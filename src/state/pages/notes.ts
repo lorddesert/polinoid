@@ -68,6 +68,7 @@ export async function saveNote() {
 
         if (notes.value[selectedNoteIndex].draft) {
             await NoteController.createNote({
+                id: -1,
                 title: noteTitle.value,
                 body: newBody.value,
                 draft: false
