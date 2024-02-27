@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import { invoke } from "@tauri-apps/api/tauri";
 import { TodoController } from "../controllers/todo.js"
+import { Todo } from "@/models/todo";
 
 const greetMsg = ref("");
 const name = ref("");
-const todos = ref("")
+const todos: Ref<Todo[] | null>  = ref(null)
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
