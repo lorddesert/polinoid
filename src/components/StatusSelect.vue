@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/select'
 import { ref, watch } from 'vue';
   const props = defineProps<{
-    status: string,
+    status: "wip" | "backlog" | "done",
     cardID: any,
     isHoveringCard: boolean
   }>()
@@ -30,20 +30,10 @@ import { ref, watch } from 'vue';
   function moveTodo(newStatus: 'wip' | 'done' | 'backlog') {
     if (newStatus === props.status) return false
 
-    console.log(newStatus)
-
-    // recover the ID of the card that has changed
-    // change the value on local of the status
-    // change the value of the status on the server
-
-    // WOrks on local, to see the server.
-    // Server: Done
-
     const selectedTodo = unfilteredAllTodos.value.find(todo => todo.id === props.cardID)
     selectedTodo!.status = newStatus
 
-    // console.log(selectedTodo)
-    // return
+    // @ts-ignore
     TodoController.modifyTodo(selectedTodo)
   }
 </script>
