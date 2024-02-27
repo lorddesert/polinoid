@@ -1,8 +1,7 @@
-import SQLite from "tauri-plugin-sqlite-api"
 import { openDatabaseConnection } from "../utils/utils"
 
 type Note = {
-  id?: number,
+  id: number,
   title: string,
   body: string,
   draft: boolean
