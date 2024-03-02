@@ -15,7 +15,9 @@ export const todos = computed(() => {
         done: []
       }
 
-    unfilteredAllTodos.value.forEach(todo => newTodos[todo.status].push(todo))
+    unfilteredAllTodos.value
+    .filter(todo => todo.status)
+    .forEach(todo => newTodos[todo.status].push(todo))
 
     return newTodos
   })
