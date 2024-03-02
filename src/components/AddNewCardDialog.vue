@@ -68,9 +68,9 @@ async function addNewCard(e: any) {
 	      <DialogContent>
 	        <form action="" class="grid gap-2" v-on:submit="addNewCard">
 	          <label for="note-title">Note title</label>
-	          <Input type="text" name="note-title" id="note-title" placeholder="Awesome thing!" />
+	          <Input required type="text" name="note-title" id="note-title" placeholder="Awesome thing!" />
 	          <label for="note-status">Status</label>
-	          <Select>
+	          <Select required>
 	            <SelectTrigger>
 	              <SelectValue placeholder="Where it should go?" />
 	            </SelectTrigger>
