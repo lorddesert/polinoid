@@ -4,11 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "tauri dev",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "test": "vitest"
+    "test": "vitest",
+    "dev:web": "vite"
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
